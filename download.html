@@ -415,7 +415,7 @@ async function decryptVault(cipherB64, pin) {
 
 // Webhook backend untuk validasi PIN unik tiap pembeli
 // Jika kosong, sistem otomatis memakai fallback enkripsi lokal
-let BACKEND_VERIFY_URL = "";
+let BACKEND_VERIFY_URL = "https://script.google.com/macros/s/AKfycby-QZ7WJGMH9en4rUh-cCw3e3iDHkZlO8xGp156XoDqAeHUVd60l86NvBp-tfi9mGvv6w/exec";
 
 function verifyPinOnline(pin) {
   return new Promise((resolve) => {
