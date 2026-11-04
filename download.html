@@ -318,12 +318,22 @@
         <button onclick="lockAgain()" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer">Tutup Akses</button>
       </div>
 
-      <a href="#" id="mainDownloadUrl" target="_blank" class="download-btn btn-main">
-        Unduh Berkas via Google Drive
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px;text-align:left">
+        Pilih server Google Drive sesuai admin yang memproses pesanan Anda:
+      </div>
+
+      <a href="#" id="tianDownloadUrl" target="_blank" class="download-btn" style="background:#10b981;color:#fff;display:flex;flex-direction:column;align-items:center;padding:12px 14px;border-radius:10px;font-weight:700;text-decoration:none;margin-bottom:10px;transition:0.2s">
+        <span style="font-size:11px;opacity:0.85;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Server 1 (Owner)</span>
+        <span style="font-size:15px">Unduh via Google Drive • TianDS</span>
       </a>
 
-      <a href="#" id="mirrorDownloadUrl" target="_blank" class="download-btn btn-mirror">
-        Link Mirror Cadangan (Mediafire)
+      <a href="#" id="afiqDownloadUrl" target="_blank" class="download-btn btn-main" style="display:flex;flex-direction:column;align-items:center;padding:12px 14px;border-radius:10px;font-weight:700;text-decoration:none;margin-bottom:10px">
+        <span style="font-size:11px;opacity:0.85;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Server 2 (Developer)</span>
+        <span style="font-size:15px">Unduh via Google Drive • Afiq Jordan</span>
+      </a>
+
+      <a href="#" id="mirrorDownloadUrl" target="_blank" class="download-btn btn-mirror" style="display:block;text-align:center;padding:10px 14px;border-radius:10px;font-weight:600;text-decoration:none;margin-bottom:12px">
+        Link Mirror Cadangan (Mediafire / Mega)
       </a>
 
       <div class="info-card">
@@ -416,9 +426,15 @@ async function unlockDownload() {
     const data = await decryptVault(VAULT_CIPHER, pin);
     
     // Decryption succeeded!
-    document.getElementById('mainDownloadUrl').href = data.mainLink;
-    document.getElementById('mirrorDownloadUrl').href = data.mirrorLink;
-    document.getElementById('rarPassDisplay').innerText = data.rarPass;
+    const tianLink = data.tianDrive || data.mainLink || '#';
+    const afiqLink = data.afiqDrive || data.mainLink || '#';
+    const mirrorLink = data.mirrorLink || '#';
+
+    if (document.getElementById('tianDownloadUrl')) document.getElementById('tianDownloadUrl').href = tianLink;
+    if (document.getElementById('afiqDownloadUrl')) document.getElementById('afiqDownloadUrl').href = afiqLink;
+    if (document.getElementById('mainDownloadUrl')) document.getElementById('mainDownloadUrl').href = tianLink;
+    document.getElementById('mirrorDownloadUrl').href = mirrorLink;
+    document.getElementById('rarPassDisplay').innerText = data.rarPass || 'garudapatch';
 
     document.getElementById('pinSection').style.display = 'none';
     document.getElementById('resultBox').style.display = 'block';
