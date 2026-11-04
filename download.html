@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Portal Unduhan Resmi • Garuda Format Overhaul</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700;800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --surface: #131c2e;
+      --surface-card: #19243b;
+      --border: #223049;
+      --border-focus: #3b82f6;
+      --text: #f0f4f8;
+      --muted: #8c9cb8;
+      --green: #22c55e;
+      --green-soft: rgba(34, 197, 94, 0.12);
+      --blue: #3b82f6;
+      --red: #ef4444;
+      --gold: #f59e0b;
+      --font-display: "Saira Condensed", sans-serif;
+      --font-body: "Figtree", sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 540px;
+      margin: auto;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 28px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.4);
+    }
+
+    .header-area {
+      text-align: center;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .badge-portal {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--blue);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: 30px;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Form PIN */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .pin-input {
+      width: 100%;
+      background: #080c14;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: var(--font-mono);
+      font-size: 16px;
+      color: #fff;
+      letter-spacing: 2px;
+      text-align: center;
+      outline: none;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+
+    .pin-input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .btn-unlock {
+      width: 100%;
+      background: var(--blue);
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: filter .15s, transform .15s;
+    }
+
+    .btn-unlock:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-unlock:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Error Banner */
+    .error-box {
+      display: none;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    /* Unlocked Content */
+    .result-box {
+      display: none;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px dashed var(--border);
+      animation: fadeIn .25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .verified-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .verified-tag {
+      background: var(--green-soft);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .download-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 10px;
+      transition: filter .15s;
+    }
+
+    .btn-main {
+      background: var(--green);
+      color: #000;
+    }
+
+    .btn-main:hover { filter: brightness(1.1); }
+
+    .btn-mirror {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 13px;
+      padding: 10px;
+    }
+
+    .btn-mirror:hover { background: #223049; }
+
+    .info-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+
+    .copy-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #080c14;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin-top: 6px;
+    }
+
+    .copy-row code {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: #93c5fd;
+      letter-spacing: 1px;
+    }
+
+    .btn-copy {
+      background: var(--border);
+      color: #fff;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-copy:hover { background: #2f4366; }
+
+    .footer-help {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-help a {
+      color: #93c5fd;
+      text-decoration: none;
+    }
+
+    .footer-help a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card">
+    <div class="header-area">
+      <span class="badge-portal">Akses Khusus Pembeli</span>
+      <h1>Portal Unduhan</h1>
+      <p class="subtitle">Garuda Format Overhaul • eFootball PES 2021</p>
+    </div>
+
+    <!-- FORM INPUT PIN -->
+    <div id="pinSection">
+      <div class="form-group">
+        <label for="buyerPin">Masukkan PIN Akses Resmi:</label>
+        <div class="input-wrap">
+          <input type="password" id="buyerPin" class="pin-input" placeholder="Masukkan PIN dari Admin" autofocus autocomplete="off">
+        </div>
+      </div>
+
+      <button class="btn-unlock" id="btnUnlock" onclick="unlockDownload()">Buka Akses Unduhan</button>
+
+      <div class="error-box" id="errorBox">
+        PIN tidak valid. Pastikan Anda memasukkan PIN resmi yang diberikan oleh Owner (TianDS) atau Developer (Afiq Jordan).
+      </div>
+    </div>
+
+    <!-- UNLOCKED SECTION -->
+    <div class="result-box" id="resultBox">
+      <div class="verified-header">
+        <span class="verified-tag">Akses Terverifikasi</span>
+        <button onclick="lockAgain()" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer">Tutup Akses</button>
+      </div>
+
+      <a href="#" id="mainDownloadUrl" target="_blank" class="download-btn btn-main">
+        Unduh Berkas via Google Drive
+      </a>
+
+      <a href="#" id="mirrorDownloadUrl" target="_blank" class="download-btn btn-mirror">
+        Link Mirror Cadangan (Mediafire)
+      </a>
+
+      <div class="info-card">
+        <div style="font-weight:600;margin-bottom:2px">Password Ekstrak Berkas:</div>
+        <div class="copy-row">
+          <code id="rarPassDisplay">...</code>
+          <button class="btn-copy" onclick="copyPassword()">Salin</button>
+        </div>
+      </div>
+
+      <div style="font-size:12px;color:var(--muted);line-height:1.5;background:rgba(0,0,0,0.25);padding:12px;border-radius:8px;border:1px solid var(--border)">
+        <strong style="color:#fff;display:block;margin-bottom:4px">Catatan Penting:</strong>
+        Pastikan email Gmail Anda telah didaftarkan oleh admin sebelum membuka link Google Drive privat. Berkas terproteksi dan dilarang disebarluaskan.
+      </div>
+    </div>
+
+    <div class="footer-help">
+      Belum memiliki PIN atau butuh bantuan?<br>
+      Hubungi <b>TianDS (Owner)</b> atau <b>Afiq Jordan (Developer)</b> via <a href="index.html">Halaman Utama</a>.
+    </div>
+  </div>
+</div>
+
+<script>
+// Encrypted payload (AES-256-GCM via PBKDF2)
+// The download link is mathematically encrypted and NEVER stored in plain text.
+const VAULT_CIPHER = "S+4QQjyY4FTGjibYvxQMBhn5dteJQ4VcVY3QytUGJcZjatOnUhK0gZDX6zY3GaUKtNmrHT8R6PDcYqBX1bRyCsYzPOFD7ejMp22I/wIRHVHqjlRz3IN56qa21kJN0rCqWs7QwFiCg3xHKh0HPEU+8vJjP76eqqNm9sRAqpMD19qI0s/umHtziPSixY5apr70h2yUNGqhmfjmbs1hQp5viWNropRsCrTPmMAJ5Ws6bqIfK6hOjXGvgRi5p7vm46BJvNTwlQHcQaqT2Tg2ALyymtayg0LqL/F0mLrxz7ltKOaUVTn+Wfs2jijmI5Z+BXRR/kc7AX0GbBSBHeXBOkNn9z6iJlzohSGL0O4gTlsgEALXc8XEnXDGtcTZSiGQgj2gjaSAmhikdKwU/XroTCzvFqKAMeW5/jrDCA97891VyirvomqSwdPZJ/En7aA2UPLeGT++qdZOAE/JztGjSMdN45XzegDiEThnwuvv+CxZqGJ7dgQwc0T4i71eJd8GGNqJW2YiYq7Eh6+8Wqdm0kNWrirYoTLTZljA+L+7bhlRsHySwQv5qSZiRttaz4o71Lh+DcMXcbbsImklReXqfDZ+nemaBg==";
+
+// Web Crypto PBKDF2 key derivation
+async function deriveKey(pin, salt) {
+  const enc = new TextEncoder();
+  const keyMaterial = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(pin.trim()),
+    { name: "PBKDF2" },
+    false,
+    ["deriveKey"]
+  );
+  return await crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      salt: salt,
+      iterations: 100000,
+      hash: "SHA-256"
+    },
+    keyMaterial,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["decrypt"]
+  );
+}
+
+async function decryptVault(cipherB64, pin) {
+  const binary = atob(cipherB64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  
+  const salt = bytes.slice(0, 16);
+  const iv = bytes.slice(16, 28);
+  const data = bytes.slice(28);
+
+  const key = await deriveKey(pin, salt);
+  const decrypted = await crypto.subtle.decrypt(
+    { name: "AES-GCM", iv: iv },
+    key,
+    data
+  );
+  return JSON.parse(new TextDecoder().decode(decrypted));
+}
+
+async function unlockDownload() {
+  const pinInput = document.getElementById('buyerPin');
+  const btn = document.getElementById('btnUnlock');
+  const errorBox = document.getElementById('errorBox');
+  const pin = pinInput.value.trim();
+
+  if (!pin) {
+    errorBox.innerText = "Masukkan PIN akses terlebih dahulu.";
+    errorBox.style.display = "block";
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerText = "Memverifikasi...";
+  errorBox.style.display = "none";
+
+  try {
+    const data = await decryptVault(VAULT_CIPHER, pin);
+    
+    // Decryption succeeded!
+    document.getElementById('mainDownloadUrl').href = data.mainLink;
+    document.getElementById('mirrorDownloadUrl').href = data.mirrorLink;
+    document.getElementById('rarPassDisplay').innerText = data.rarPass;
+
+    document.getElementById('pinSection').style.display = 'none';
+    document.getElementById('resultBox').style.display = 'block';
+  } catch(err) {
+    errorBox.innerText = "PIN tidak valid atau salah. Hubungi Owner (TianDS) atau Developer (Afiq Jordan) jika Anda sudah order.";
+    errorBox.style.display = "block";
+  } finally {
+    btn.disabled = false;
+    btn.innerText = "Buka Akses Unduhan";
+  }
+}
+
+function lockAgain() {
+  document.getElementById('resultBox').style.display = 'none';
+  document.getElementById('pinSection').style.display = 'block';
+  document.getElementById('buyerPin').value = '';
+  document.getElementById('buyerPin').focus();
+}
+
+function copyPassword() {
+  const pass = document.getElementById('rarPassDisplay').innerText.trim();
+  navigator.clipboard.writeText(pass).then(() => {
+    alert("Password ekstrak (" + pass + ") berhasil disalin!");
+  });
+}
+
+// Support enter key
+document.getElementById('buyerPin').addEventListener('keyup', function(e) {
+  if (e.key === 'Enter') unlockDownload();
+});
+</script>
+
+</body>
+</html>
