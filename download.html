@@ -318,6 +318,8 @@
         <button onclick="lockAgain()" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer">Tutup Akses</button>
       </div>
 
+      <div id="buyerGreeting" style="display:none;font-size:14px;color:var(--green);font-weight:700;margin-bottom:12px;text-align:left;background:rgba(34,197,94,0.1);padding:10px 12px;border-radius:8px;border:1px solid rgba(34,197,94,0.25)"></div>
+
       <div style="font-size:12px;color:var(--muted);margin-bottom:10px;text-align:left">
         Pilih server Google Drive sesuai admin yang memproses pesanan Anda:
       </div>
@@ -411,11 +413,97 @@ async function decryptVault(cipherB64, pin) {
   return JSON.parse(new TextDecoder().decode(decrypted));
 }
 
+// Webhook backend untuk validasi PIN unik tiap pembeli
+// Jika kosong, sistem otomatis memakai fallback enkripsi lokal
+let BACKEND_VERIFY_URL = "";
+
+function verifyPinOnline(pin) {
+  return new Promise((resolve) => {
+    if (!BACKEND_VERIFY_URL || BACKEND_VERIFY_URL.indexOf("http") !== 0) {
+      resolve(null);
+      return;
+    }
+    const cbName = "garuda_verify_" + Date.now();
+    const script = document.createElement("script");
+    let resolved = false;
+
+    const timer = setTimeout(() => {
+      if (!resolved) {
+        resolved = true;
+        cleanup();
+        resolve(null);
+      }
+    }, 4500);
+
+    function cleanup() {
+      if (script.parentNode) script.parentNode.removeChild(script);
+      delete window[cbName];
+    }
+
+    window[cbName] = function(res) {
+      if (!resolved) {
+        resolved = true;
+        clearTimeout(timer);
+        cleanup();
+        resolve(res);
+      }
+    };
+
+    script.src = `${BACKEND_VERIFY_URL}?action=verify&pin=${encodeURIComponent(pin)}&callback=${cbName}`;
+    script.onerror = function() {
+      if (!resolved) {
+        resolved = true;
+        clearTimeout(timer);
+        cleanup();
+        resolve(null);
+      }
+    };
+    document.body.appendChild(script);
+  });
+}
+
+function applyUnlockedData(data) {
+  const tianLink = data.tianDrive || data.mainLink || '#';
+  const afiqLink = data.afiqDrive || data.mainLink || '#';
+  const dropboxLink = data.dropboxLink || '';
+  const mirrorLink = data.mirrorLink || '#';
+
+  if (document.getElementById('tianDownloadUrl')) document.getElementById('tianDownloadUrl').href = tianLink;
+  if (document.getElementById('afiqDownloadUrl')) document.getElementById('afiqDownloadUrl').href = afiqLink;
+  if (document.getElementById('mainDownloadUrl')) document.getElementById('mainDownloadUrl').href = tianLink;
+
+  const dropboxBtn = document.getElementById('dropboxDownloadUrl');
+  if (dropboxBtn) {
+    if (dropboxLink) {
+      dropboxBtn.href = dropboxLink;
+      dropboxBtn.style.display = 'flex';
+    } else {
+      dropboxBtn.style.display = 'none';
+    }
+  }
+
+  if (document.getElementById('mirrorDownloadUrl')) document.getElementById('mirrorDownloadUrl').href = mirrorLink;
+  document.getElementById('rarPassDisplay').innerText = data.rarPass || 'garuda2026';
+
+  const greetingEl = document.getElementById('buyerGreeting');
+  if (greetingEl) {
+    if (data.buyerName) {
+      greetingEl.innerText = `Halo, Kak ${data.buyerName}! Akses resmi Anda aktif.`;
+      greetingEl.style.display = 'block';
+    } else {
+      greetingEl.style.display = 'none';
+    }
+  }
+
+  document.getElementById('pinSection').style.display = 'none';
+  document.getElementById('resultBox').style.display = 'block';
+}
+
 async function unlockDownload() {
   const pinInput = document.getElementById('buyerPin');
   const btn = document.getElementById('btnUnlock');
   const errorBox = document.getElementById('errorBox');
-  const pin = pinInput.value.trim();
+  const pin = pinInput.value.trim().toUpperCase();
 
   if (!pin) {
     errorBox.innerText = "Masukkan PIN akses terlebih dahulu.";
@@ -424,38 +512,20 @@ async function unlockDownload() {
   }
 
   btn.disabled = true;
-  btn.innerText = "Memverifikasi...";
+  btn.innerText = "Memverifikasi PIN...";
   errorBox.style.display = "none";
 
   try {
-    const data = await decryptVault(VAULT_CIPHER, pin);
-    
-    // Decryption succeeded!
-    const tianLink = data.tianDrive || data.mainLink || '#';
-    const afiqLink = data.afiqDrive || data.mainLink || '#';
-    const dropboxLink = data.dropboxLink || '';
-    const mirrorLink = data.mirrorLink || '#';
-
-    if (document.getElementById('tianDownloadUrl')) document.getElementById('tianDownloadUrl').href = tianLink;
-    if (document.getElementById('afiqDownloadUrl')) document.getElementById('afiqDownloadUrl').href = afiqLink;
-    if (document.getElementById('mainDownloadUrl')) document.getElementById('mainDownloadUrl').href = tianLink;
-    
-    const dropboxBtn = document.getElementById('dropboxDownloadUrl');
-    if (dropboxBtn) {
-      if (dropboxLink) {
-        dropboxBtn.href = dropboxLink;
-        dropboxBtn.style.display = 'flex';
-      } else {
-        // Jika belum ada link dropbox di cipher, sembunyikan atau tetap tampil jika diatur
-        dropboxBtn.style.display = 'none';
-      }
+    // 1. Cek online ke Google Apps Script backend (PIN unik tiap pembeli)
+    const onlineData = await verifyPinOnline(pin);
+    if (onlineData && onlineData.valid) {
+      applyUnlockedData(onlineData);
+      return;
     }
 
-    if (document.getElementById('mirrorDownloadUrl')) document.getElementById('mirrorDownloadUrl').href = mirrorLink;
-    document.getElementById('rarPassDisplay').innerText = data.rarPass || 'garudapatch';
-
-    document.getElementById('pinSection').style.display = 'none';
-    document.getElementById('resultBox').style.display = 'block';
+    // 2. Fallback offline ke vault enkripsi AES-256
+    const data = await decryptVault(VAULT_CIPHER, pin);
+    applyUnlockedData(data);
   } catch(err) {
     errorBox.innerText = "PIN tidak valid atau salah. Hubungi Owner (TianDS) atau Developer (Afiq Jordan) jika Anda sudah order.";
     errorBox.style.display = "block";
