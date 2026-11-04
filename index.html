@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Garuda Format Overhaul • eFootball PES 2021</title>
+  
+  <!-- Open Graph Meta for Social Sharing / WhatsApp Preview -->
+  <meta property="og:title" content="Garuda Format Overhaul — eFootball PES 2021">
+  <meta property="og:description" content="Proyek komunitas eksklusif Garuda Patch: 12 kompetisi baru & format terkini UCL, UEL, UECL, ACL Elite, Piala Dunia 48 tim.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#1d7a4f">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700;800&family=Figtree:wght@400;500;600;700&display=swap">
+
+  <style>
+/* Layout: a matchday programme — one column of fixtures, two clearly split parts: free update first, paid project after */
+:root {
+  --bg: #f3f5f8;
+  --surface: #ffffff;
+  --ink: #142033;
+  --muted: #56637a;
+  --line: #d9dfe8;
+  --gold: #b07a12;
+  --gold-soft: #f6ecd6;
+  --free: #1d7a4f;
+  --free-soft: #e2f3ea;
+  --up: #1d7a4f;
+  --down: #c0392b;
+  --paid: #2b4fa8;
+  --paid-soft: #e4eafa;
+  --display: "Saira Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --body: "Figtree", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1420; --surface: #151f2f; --ink: #e8edf5; --muted: #9aa7bd; --line: #26344a;
+    --gold: #e0ac4a; --gold-soft: #2c2414; --free: #4cc38a; --free-soft: #12291f;
+    --up: #4cc38a; --down: #ef6f61; --paid: #8aa8f0; --paid-soft: #172341;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1420; --surface: #151f2f; --ink: #e8edf5; --muted: #9aa7bd; --line: #26344a;
+  --gold: #e0ac4a; --gold-soft: #2c2414; --free: #4cc38a; --free-soft: #12291f;
+  --up: #4cc38a; --down: #ef6f61; --paid: #8aa8f0; --paid-soft: #172341;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--body);
+  font-size: 16px; line-height: 1.6;
+}
+.wrap {
+  max-width: 860px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 64px;
+}
+h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+
+/* header */
+.masthead { display: grid; gap: 14px; padding-bottom: 28px; border-bottom: 3px solid var(--ink); }
+.kicker { font-family: var(--display); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); font-size: 15px; }
+h1 { font-size: clamp(40px, 8vw, 68px); font-weight: 800; letter-spacing: -.01em; text-transform: uppercase; }
+.lede { color: var(--muted); max-width: 62ch; }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+.split a { text-decoration: none; color: inherit; border-radius: 10px; padding: 14px 16px; display: grid; gap: 2px; border: 1px solid var(--line); background: var(--surface); }
+.split a:focus-visible, .chips a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.split .tag { font-family: var(--display); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: 13px; }
+.split .free .tag { color: var(--free); }
+.split .paid .tag { color: var(--paid); }
+.split strong { font-family: var(--display); font-size: 22px; line-height: 1.15; }
+.split span.sub { color: var(--muted); font-size: 14px; }
+
+.credit { font-size: 15px; color: var(--muted); }
+.credit b { color: var(--ink); font-weight: 700; }
+.price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; padding: 12px 16px; border-radius: 10px; background: var(--gold-soft); justify-self: start; }
+.price .amt { font-family: var(--display); font-weight: 800; font-size: 32px; color: var(--gold); font-variant-numeric: tabular-nums; }
+.price span:last-child { font-size: 15px; font-weight: 600; }
+
+/* notices */
+.notices { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.notice { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--gold); border-radius: 10px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.notice.lock { border-top-color: var(--down); }
+.notice.comm { border-top-color: var(--paid); }
+.n-tag { font-family: var(--display); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: 13px; color: var(--gold); }
+.notice.lock .n-tag { color: var(--down); }
+.notice.comm .n-tag { color: var(--paid); }
+.notice h3 { font-size: 22px; font-weight: 700; }
+.notice p { font-size: 15px; color: var(--muted); }
+@media (max-width: 720px) { .notices { grid-template-columns: 1fr; } }
+
+/* parts */
+.part { margin-top: 40px; display: grid; gap: 20px; }
+.part-head { display: grid; gap: 8px; }
+.badge { justify-self: start; font-family: var(--display); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: 13px; padding: 4px 10px; border-radius: 4px; }
+.badge.free { background: var(--free-soft); color: var(--free); }
+.badge.paid { background: var(--paid-soft); color: var(--paid); }
+h2 { font-size: clamp(30px, 5.5vw, 42px); font-weight: 800; text-transform: uppercase; }
+.part-head p { color: var(--muted); max-width: 62ch; }
+
+/* pyramid (promotion / relegation) */
+.leagues { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.league { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display: grid; gap: 16px; min-width: 0; }
+.league h3 { font-size: 26px; font-weight: 700; text-transform: uppercase; }
+.tiers { display: grid; gap: 0; }
+.tier { display: grid; grid-template-columns: 34px 1fr; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; }
+.tier .lvl { font-family: var(--display); font-weight: 800; font-size: 20px; color: var(--gold); text-align: center; }
+.tier .nm { font-weight: 600; line-height: 1.3; }
+.tier.new { border-color: var(--gold); background: var(--gold-soft); }
+.tier .nm small { display: block; font-weight: 500; color: var(--gold); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+.swap { display: flex; justify-content: center; gap: 18px; padding: 6px 0; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.swap .u { color: var(--up); }
+.swap .d { color: var(--down); }
+.league ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 15px; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 14px; color: var(--muted); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: 0; }
+
+/* competition list */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips a { text-decoration: none; color: var(--paid); background: var(--paid-soft); padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 600; }
+.region { display: grid; gap: 12px; scroll-margin-top: 16px; }
+.region-title { display: flex; align-items: baseline; gap: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.region-title h3 { font-size: 24px; font-weight: 700; text-transform: uppercase; }
+.region-title span { color: var(--muted); font-size: 14px; }
+.comp { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: grid; gap: 10px; min-width: 0; }
+.comp-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.comp h4 { font-family: var(--display); font-size: 24px; font-weight: 700; margin: 0; line-height: 1.15; }
+.pill { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+.pill.new { background: var(--gold-soft); color: var(--gold); }
+.pill.exp { background: var(--paid-soft); color: var(--paid); }
+.spec { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--display); font-weight: 600; font-size: 17px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.spec b { color: var(--ink); font-weight: 700; }
+.comp ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 15px; }
+.berth { font-size: 14px; font-weight: 600; color: var(--gold); }
+.berth::before { content: "Juara → "; color: var(--muted); font-weight: 500; }
+.dates { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.dates div { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 13px; color: var(--muted); }
+.dates b { display: block; font-family: var(--display); font-size: 18px; color: var(--ink); }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); color: var(--muted); font-size: 14px; }
+
+@media (max-width: 640px) {
+  .split, .leagues { grid-template-columns: 1fr; }
+  .dates { grid-template-columns: repeat(2, 1fr); }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+
+/* Extra Enhancements for GitHub Pages & E-Commerce */
+.masthead-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: var(--surface);
+  padding: 16px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+.btn-order-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #1d7a4f 0%, #155737 100%);
+  color: #ffffff !important;
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(29, 122, 79, 0.35);
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+.btn-order-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 6px 20px rgba(29, 122, 79, 0.45);
+}
+.btn-order-primary:active {
+  transform: translateY(0);
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 15, 25, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, visibility .25s ease;
+}
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.modal-box {
+  background: var(--surface);
+  color: var(--ink);
+  width: 100%;
+  max-width: 520px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.95);
+  transition: transform .25s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 90vh;
+}
+.modal-overlay.active .modal-box {
+  transform: scale(1);
+}
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-header h3 {
+  font-family: var(--display);
+  font-size: 24px;
+  margin: 0;
+  text-transform: uppercase;
+}
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+}
+.modal-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+.tab-btn {
+  flex: 1;
+  padding: 12px 10px;
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 600;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all .15s ease;
+}
+.tab-btn.active {
+  color: var(--ink);
+  border-bottom-color: var(--free);
+  background: var(--surface);
+}
+.tab-content {
+  padding: 24px;
+  overflow-y: auto;
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
+.payment-card {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.bank-badge {
+  display: inline-block;
+  background: #1a4b8c;
+  color: #fff;
+  font-weight: 800;
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: .05em;
+  margin-bottom: 8px;
+}
+.acc-num {
+  font-family: monospace;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--ink);
+  margin: 4px 0;
+}
+.acc-name {
+  font-size: 13px;
+  color: var(--muted);
+}
+.btn-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  margin-top: 8px;
+}
+.btn-copy:hover {
+  background: var(--line);
+}
+.wa-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px;
+  background: #25D366;
+  color: #fff !important;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+  margin-top: 10px;
+}
+.wa-btn:hover {
+  filter: brightness(1.08);
+}
+.auto-pay-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #1d7a4f, #155737);
+  color: #fff !important;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(29, 122, 79, 0.35);
+  margin-bottom: 12px;
+}
+.auto-pay-btn:hover {
+  filter: brightness(1.1);
+}
+.qris-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0;
+  justify-content: center;
+}
+.qris-badge {
+  font-size: 11px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Mobile Sticky Bar */
+.mobile-sticky-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-top: 2px solid var(--ink);
+  padding: 12px 16px;
+  z-index: 1000;
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.15);
+  align-items: center;
+  justify-content: space-between;
+}
+@media (max-width: 640px) {
+  .mobile-sticky-bar { display: flex; }
+  .wrap { padding-bottom: 110px; }
+}
+
+/* Admin Link in Footer */
+.footer-admin {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+.footer-admin a {
+  color: var(--muted);
+  text-decoration: none;
+}
+.footer-admin a:hover {
+  text-decoration: underline;
+  color: var(--ink);
+}
+
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Garuda Patch · eFootball PES 2021</div>
+    <h1>Format Overhaul</h1>
+    <p class="lede">Proyek komunitas baru untuk Garuda Patch: kompetisi baru serta format terbaru untuk kompetisi klub kontinental dan turnamen antarnegara, 12 kompetisi sekaligus.</p>
+    <p class="credit">Dikembangkan oleh <b>Afiq Jordan (AJ)</b></p>
+    <div class="masthead-cta">
+      <div class="price">
+        <span class="amt">Rp50.000</span>
+        <span>Sekali beli, gratis update fitur hingga akhir musim</span>
+      </div>
+      <button class="btn-order-primary" onclick="openOrderModal()">
+        Beli Sekarang
+      </button>
+    </div>
+  </header>
+
+  <section class="notices" aria-label="Ketentuan">
+    <article class="notice excl">
+      <span class="n-tag">Eksklusif</span>
+      <h3>Khusus Garuda Patch</h3>
+      <p>Proyek ini dibuat khusus untuk Garuda Patch dan tidak bisa digunakan di patch lain.</p>
+    </article>
+    <article class="notice lock">
+      <span class="n-tag">Berkas terproteksi</span>
+      <h3>Dilarang disebarkan</h3>
+      <p>Berkas sudah diproteksi. Jangan membagikan, menjual ulang, menduplikasi, atau menyebarkan berkas ini dalam bentuk apa pun.</p>
+    </article>
+    <article class="notice comm">
+      <span class="n-tag">Proyek komunitas</span>
+      <h3>Dijual terpisah</h3>
+      <p>Proyek ini tidak termasuk dalam paket bundling pembelian GPES. Proyek akan terus dikembangkan setiap musim, jadi donasi dari setiap pembeli sangat berarti untuk perkembangannya ke depan.</p>
+    </article>
+  </section>
+
+  <!-- PART 2: PAID -->
+  <section class="part" id="proyek-baru">
+    <nav class="chips" aria-label="Wilayah">
+      <a href="#eropa">Eropa</a>
+      <a href="#asia">Asia</a>
+      <a href="#amerika">Amerika Selatan</a>
+      <a href="#antarnegara">Antarnegara</a>
+      <a href="#domestik">Piala Domestik</a>
+    </nav>
+
+    <!-- EUROPE -->
+    <div class="region" id="eropa">
+      <div class="region-title"><h3>Eropa</h3><span>UEFA</span></div>
+
+      <article class="comp">
+        <div class="comp-top"><h4>UEFA Champions League</h4><span class="pill exp">Format 36 tim</span></div>
+        <div class="spec"><span><b>36</b> tim</span><span><b>1</b> klasemen</span><span><b>8</b> laga per tim</span></div>
+        <ul>
+          <li>Satu klasemen gabungan (League Phase), diundi dari 4 pot berisi 9 tim. Setiap tim main 4 laga kandang dan 4 tandang melawan 8 lawan berbeda.</li>
+          <li>Play-off kualifikasi diikuti 16 tim. 8 pemenang masuk League Phase, 8 yang kalah pindah ke League Phase Europa League.</li>
+          <li>Peringkat 1–8 langsung ke 16 Besar, peringkat 9–24 ke Knockout Play-Off (9 vs 24, 10 vs 23, dst.), peringkat 25–36 tersingkir.</li>
+          <li>Babak gugur kandang-tandang, final satu laga.</li>
+          <li>Saat undian, tim tidak bertemu klub dari negaranya sendiri.</li>
+        </ul>
+        <p class="berth">UEFA Super Cup &amp; FIFA Club World Cup</p>
+      </article>
+
+      <article class="comp">
+        <div class="comp-top"><h4>UEFA Europa League</h4><span class="pill exp">Format 36 tim</span></div>
+        <div class="spec"><span><b>36</b> tim</span><span><b>1</b> klasemen</span><span><b>8</b> laga per tim</span></div>
+        <ul>
+          <li>Peserta: 20 tim langsung (termasuk juara Conference League), 8 pemenang Play-off Europa League, dan 8 tim yang kalah di Play-off Champions League.</li>
+          <li>8 tim yang kalah di Play-off Europa League pindah ke Conference League.</li>
+          <li>Peringkat 1–8 ke 16 Besar, 9–24 ke Knockout Play-Off, 25–36 tersingkir.</li>
+        </ul>
+        <p class="berth">UEFA Champions League musim berikutnya</p>
+      </article>
+
+      <article class="comp">
+        <div class="comp-top"><h4>UEFA Conference League</h4><span class="pill new">Kompetisi baru</span></div>
+        <div class="spec"><span><b>36</b> tim</span><span><b>1</b> klasemen</span><span><b>8</b> laga per tim</span></div>
+        <ul>
+          <li>Kompetisi klub Eropa kasta ketiga, ditambahkan ke game.</li>
+          <li>Peserta: 28 tim langsung dan 8 tim yang kalah di Play-off Europa League.</li>
+          <li>Peringkat 1–8 ke 16 Besar, 9–24 ke Knockout Play-Off, 25–36 tersingkir.</li>
+          <li>Bisa dimainkan di Cup Mode dan Master League.</li>
+        </ul>
+        <p class="berth">UEFA Europa League musim berikutnya</p>
+      </article>
+    </div>
+
+    <!-- ASIA -->
+    <div class="region" id="asia">
+      <div class="region-title"><h3>Asia</h3><span>AFC</span></div>
+
+      <article class="comp">
+        <div class="comp-top"><h4>AFC Champions League Elite</h4><span class="pill exp">Format League Stage</span></div>
+        <div class="spec"><span><b>32</b> tim</span><span><b>2</b> wilayah</span><span><b>8</b> laga per tim</span></div>
+        <ul>
+          <li>Peserta: 31 tim langsung dan juara AFC Champions League Two.</li>
+          <li>Dibagi ke wilayah Barat dan Timur, masing-masing 16 tim. Setiap tim main 4 laga kandang dan 4 tandang melawan 8 lawan berbeda.</li>
+          <li>8 besar tiap wilayah lolos ke 16 Besar, dimainkan kandang-tandang di dalam wilayah sendiri (1 vs 8, 2 vs 7, 3 vs 6, 4 vs 5).</li>
+          <li>Di perempat final, tim Barat bertemu tim Timur. Perempat final, semifinal, dan final dimainkan satu laga.</li>
+        </ul>
+        <p class="berth">FIFA Club World Cup &amp; Intercontinental Cup</p>
+      </article>
+
+      <article class="comp">
+        <div class="comp-top"><h4>AFC Champions League Two</h4><span class="pill new">Kompetisi baru</span></div>
+        <div class="spec"><span><b>32</b> tim</span><span><b>8</b> grup</span><span><b>16</b> besar</span></div>
+        <ul>
+          <li>Kompetisi klub Asia kasta kedua, di bawah ACL Elite.</li>
+          <li>8 grup berisi 4 tim, 6 laga kandang-tandang. Juara dan runner-up grup lolos ke 16 Besar.</li>
+          <li>Babak gugur kandang-tandang, final satu laga.</li>
+          <li>Di Master League, 2 klub terbaik Indonesia dari BRI Super League tampil di sini.</li>
+        </ul>
+        <p class="berth">AFC Champions League Elite musim berikutnya</p>
+      </article>
+
+      <article class="comp">
+        <div class="comp-top"><h4>AFC Asian Cup</h4><span class="pill exp">Diperluas</span></div>
+        <div class="spec"><span><b>24</b> tim</span><span><b>6</b> grup</span><span><b>16</b> besar</span></div>
+        <ul>
+          <li>Diperluas dari 16 tim dan 4 grup menjadi 24 tim dan 6 grup.</li>
+          <li>Juara grup, runner-up, dan 4 peringkat ketiga terbaik lolos ke 16 Besar.</li>
+          <li>Bagan babak gugur mengikuti format resmi turnamen 24 tim.</li>
+          <li>Klasemen peringkat ketiga terbaik bisa dilihat langsung lewat overlay (tombol Space).</li>
+        </ul>
+      </article>
+    </div>
+
+    <!-- SOUTH AMERICA -->
+    <div class="region" id="amerika">
+      <div class="region-title"><h3>Amerika Selatan</h3><span>CONMEBOL</span></div>
+
+      <article class="comp">
+        <div class="comp-top"><h4>Copa Libertadores</h4></div>
+        <div class="spec"><span><b>32</b> tim</span><span><b>8</b> grup</span><span><b>16</b> besar</span></div>
+        <ul>
+          <li>32 tim, termasuk juara Copa Sudamericana, dalam 8 grup berisi 4 tim.</li>
+          <li>6 laga kandang-tandang. 2 tim teratas grup lolos ke 16 Besar.</li>
+          <li>Babak gugur kandang-tandang, final satu laga.</li>
+        </ul>
+        <p class="berth">Recopa Sudamericana &amp; FIFA Club World Cup</p>
+      </article>
+
+      <article class="comp">
+        <div class="comp-top"><h4>Copa Sudamericana</h4><span class="pill new">Kompetisi baru</span></div>
+        <div class="spec"><span><b>32</b> tim</span><span><b>8</b> grup</span><span><b>16</b> besar</span></div>
+        <ul>
+          <li>Kompetisi klub Amerika Selatan kasta kedua.</li>
+          <li>8 grup berisi 4 tim, 6 laga kandang-tandang. 2 tim teratas grup lolos ke 16 Besar.</li>
+          <li>Babak gugur kandang-tandang, final satu laga.</li>
+          <li>Di Master League, pesertanya klub yang tidak bermain di Libertadores.</li>
+        </ul>
+        <p class="berth">Copa Libertadores musim berikutnya</p>
+      </article>
+
+      <article class="comp">
+        <div class="comp-top"><h4>Copa America</h4><span class="pill exp">Diperluas</span></div>
+        <div class="spec"><span><b>16</b> tim</span><span><b>4</b> grup</span><span><b>8</b> besar</span></div>
+        <ul>
+          <li>Diperluas dari 12 tim dan 3 grup menjadi 16 tim dan 4 grup.</li>
+          <li>Juara dan runner-up grup lolos ke perempat final.</li>
+          <li>Bagan mengikuti Copa America 2024: 1A vs 2B, 1B vs 2A, 1C vs 2D, 1D vs 2C.</li>
+        </ul>
+      </article>
+    </div>
+
+    <!-- INTERNATIONAL -->
+    <div class="region" id="antarnegara">
+      <div class="region-title"><h3>Antarnegara</h3><span>FIFA · CAF</span></div>
+
+      <article class="comp">
+        <div class="comp-top"><h4>FIFA World Cup</h4><span class="pill exp">Format 48 tim</span></div>
+        <div class="spec"><span><b>48</b> tim</span><span><b>12</b> grup</span><span><b>32</b> besar</span></div>
+        <ul>
+          <li>Diperluas dari 32 tim dan 8 grup menjadi 48 tim dan 12 grup berisi 4 tim.</li>
+          <li>Juara grup, runner-up, dan 8 peringkat ketiga terbaik lolos ke babak 32 besar.</li>
+          <li>Bagan resmi FIFA 2026 (Annex C, 495 kombinasi peringkat ketiga).</li>
+          <li>Babak 32 besar, 16 besar, perempat final, semifinal, perebutan juara 3, dan final.</li>
+          <li>Klasemen peringkat ketiga terbaik bisa dilihat langsung lewat overlay (tombol Space).</li>
+        </ul>
+      </article>
+
+      <article class="comp">
+        <div class="comp-top"><h4>Africa Cup of Nations</h4><span class="pill exp">Fase grup baru</span></div>
+        <div class="spec"><span><b>24</b> tim</span><span><b>6</b> grup</span><span><b>16</b> besar</span></div>
+        <ul>
+          <li>Sekarang ada fase grup, 24 tim dalam 6 grup. Sebelumnya hanya babak gugur.</li>
+          <li>Juara grup, runner-up, dan 4 peringkat ketiga terbaik lolos ke 16 Besar.</li>
+          <li>Kalau jumlah timnas Afrika yang punya skuad kurang dari 24, sisa slot diisi tim tamu dari Asia dan Eropa.</li>
+          <li>Klasemen peringkat ketiga terbaik bisa dilihat langsung lewat overlay (tombol Space).</li>
+        </ul>
+      </article>
+    </div>
+
+    <!-- DOMESTIC -->
+    <div class="region" id="domestik">
+      <div class="region-title"><h3>Piala Domestik</h3><span>Inggris</span></div>
+
+      <article class="comp">
+        <div class="comp-top"><h4>Carabao Cup</h4><span class="pill new">Kompetisi baru</span></div>
+        <div class="spec"><span><b>Gugur</b> satu laga</span><span><b>6</b> babak</span><span>tengah pekan</span></div>
+        <ul>
+          <li>Piala domestik kedua Inggris, di samping FA Cup. Tersedia di Master League.</li>
+          <li>Dimainkan hari Selasa atau Rabu, dan otomatis menghindari bentrok dengan jadwal liga.</li>
+        </ul>
+        <div class="dates">
+          <div><b>2 Sep</b>Babak 1</div>
+          <div><b>9 Sep</b>Babak 2</div>
+          <div><b>14 Okt</b>Babak 3</div>
+          <div><b>16 Des</b>Perempat final</div>
+          <div><b>27 Jan</b>Semifinal</div>
+          <div><b>24 Mar</b>Final</div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <footer>
+    Format Overhaul · Proyek komunitas eksklusif untuk Garuda Patch (eFootball PES 2021). Dijual terpisah, tidak termasuk bundling GPES. Berkas terproteksi: dilarang dibagikan, dijual ulang, atau diduplikasi. Terima kasih atas dukungan dan donasinya.<br>Dikembangkan oleh <b>Afiq Jordan (AJ)</b>.
+  
+  <div class="footer-admin">
+    <span>© 2026 Garuda Patch Format Overhaul • All rights reserved.</span>
+    
+  </div>
+</footer>
+</div>
+
+
+<!-- MODAL PEMBELIAN & INSTANT DELIVERY -->
+<div class="modal-overlay" id="orderModal" onclick="closeOrderModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <h3>Format Overhaul</h3>
+        <small style="color:var(--muted)">Pilih Metode Pembelian (Rp50.000)</small>
+      </div>
+      <button class="modal-close" onclick="closeOrderModal()">&times;</button>
+    </div>
+
+    <div class="modal-tabs">
+      <button class="tab-btn active" onclick="switchTab('tab-qris')">Otomatis (QRIS / E-Wallet)</button>
+      <button class="tab-btn" onclick="switchTab('tab-bank')">Transfer Bank</button>
+      <button class="tab-btn" onclick="switchTab('tab-check')">Cek Akses / Unduh</button>
+    </div>
+
+    <!-- TAB 1: OTOMATIS QRIS & INSTANT DELIVERY -->
+    <div class="tab-content active" id="tab-qris">
+      <p style="font-size:14px;margin-bottom:14px;color:var(--muted)">
+        <strong>Metode Tercepat (Rekomendasi):</strong> Link download otomatis langsung muncul di layar Anda & dikirimkan ke email detik ini juga begitu pembayaran terverifikasi.
+      </p>
+
+      <a href="https://trakteer.id" id="autoPayUrl" target="_blank" class="auto-pay-btn">
+        Bayar Otomatis (QRIS / E-Wallet)
+      </a>
+
+      <div class="qris-badges">
+        <span class="qris-badge">QRIS</span>
+        <span class="qris-badge">GoPay</span>
+        <span class="qris-badge">OVO</span>
+        <span class="qris-badge">DANA</span>
+        <span class="qris-badge">ShopeePay</span>
+        <span class="qris-badge">BCA / Mandiri / BRI Virtual Account</span>
+      </div>
+
+      <div style="background:var(--free-soft);color:var(--free);padding:10px 14px;border-radius:8px;font-size:12px;text-align:center">
+        Sistem aktif 24 jam nonstop tanpa perlu menunggu konfirmasi admin
+      </div>
+    </div>
+
+    <!-- TAB 2: TRANSFER BANK MANUAL -->
+    <div class="tab-content" id="tab-bank">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+        Silakan transfer nominal <strong>Rp50.000</strong> ke rekening resmi berikut:
+      </p>
+
+      <div class="payment-card">
+        <span class="bank-badge">BANK DANAMON</span>
+        <div class="acc-num" id="bankAcc">003716298106</div>
+        <div class="acc-name">a.n. <strong>CHRISTIAN PURNAMA AJI</strong></div>
+        <button class="btn-copy" onclick="copyBankAcc()">Salin Nomor Rekening</button>
+      </div>
+
+      <p style="font-size:13px;margin-bottom:10px;color:var(--muted)">
+        Setelah transfer, klik tombol di bawah untuk konfirmasi & meminta link unduhan via WhatsApp:
+      </p>
+
+      <div style="display:grid;gap:8px;margin-bottom:10px">
+        <input type="text" id="buyerName" placeholder="Nama Anda (sesuai rekening)" style="width:100%;padding:10px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:14px">
+      </div>
+
+      <a href="#" onclick="sendWhatsAppConfirmation(event)" class="wa-btn">
+        Kirim Bukti Transfer via WhatsApp
+      </a>
+    </div>
+
+    <!-- TAB 3: CEK AKSES / UNDUH -->
+    <div class="tab-content" id="tab-check">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+        Sudah pernah membeli atau punya PIN / Kode Akses dari admin? Masukkan di bawah untuk membuka link unduhan:
+      </p>
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <input type="password" id="userPassInput" placeholder="Masukkan PIN / Password Berkas" style="flex:1;padding:10px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:14px">
+        <button class="btn-order-primary" onclick="verifyUserAccess()" style="padding:10px 18px;font-size:14px">Buka Link</button>
+      </div>
+
+      <div id="downloadResultBox" style="display:none;background:var(--free-soft);padding:14px;border-radius:8px;border:1px solid var(--free)">
+        <strong style="color:var(--free);display:block;margin-bottom:6px">Akses Terverifikasi!</strong>
+        <p style="font-size:13px;margin-bottom:10px">Silakan unduh berkas mod Garuda Format Overhaul:</p>
+        <div style="display:grid;gap:8px">
+          <a href="#" id="mainDownloadBtn" target="_blank" style="display:block;padding:10px;background:var(--paid);color:#fff;text-align:center;border-radius:6px;text-decoration:none;font-weight:700;font-size:14px">Unduh via Google Drive</a>
+          <a href="#" id="mirrorDownloadBtn" target="_blank" style="display:block;padding:8px;background:var(--surface);border:1px solid var(--line);color:var(--ink);text-align:center;border-radius:6px;text-decoration:none;font-size:13px">Link Mirror Cadangan</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE STICKY BOTTOM BAR -->
+<div class="mobile-sticky-bar">
+  <div>
+    <div style="font-family:var(--display);font-size:20px;font-weight:800;color:var(--ink)">Rp50.000</div>
+    <small style="color:var(--muted);font-size:11px">Format Overhaul PES 2021</small>
+  </div>
+  <button class="btn-order-primary" onclick="openOrderModal()" style="padding:10px 20px;font-size:16px">
+    Beli Sekarang
+  </button>
+</div>
+
+<script>
+// Load Settings from Admin (if any stored)
+function getSettings() {
+  const defaults = {
+    payUrl: "https://lynk.id",
+    mainLink: "https://drive.google.com",
+    mirrorLink: "https://mediafire.com",
+    rarPass: "garuda2026",
+    waNumber: "6281234567890",
+    bankName: "BANK DANAMON",
+    bankNumber: "003716298106",
+    bankHolder: "CHRISTIAN PURNAMA AJI"
+  };
+  try {
+    const saved = localStorage.getItem('garuda_overhaul_settings');
+    if (saved) return { ...defaults, ...JSON.parse(saved) };
+  } catch(e) {}
+  return defaults;
+}
+
+const config = getSettings();
+document.getElementById('autoPayUrl').href = config.payUrl;
+document.getElementById('bankAcc').innerText = config.bankNumber;
+
+// Modal controls
+function openOrderModal() {
+  document.getElementById('orderModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeOrderModal(e) {
+  if (e && e.target !== e.currentTarget && e.target.className !== 'modal-close') return;
+  document.getElementById('orderModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  
+  event.currentTarget.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+
+function copyBankAcc() {
+  const num = document.getElementById('bankAcc').innerText.trim();
+  navigator.clipboard.writeText(num).then(() => {
+    alert("Nomor rekening (" + num + ") berhasil disalin!");
+  });
+}
+
+function sendWhatsAppConfirmation(e) {
+  e.preventDefault();
+  const name = document.getElementById('buyerName').value.trim() || 'Pembeli';
+  const text = `Halo Admin Garuda Patch, saya sudah transfer Rp50.000 untuk Garuda Format Overhaul a.n. ${name}.%0A%0AMohon konfirmasi dan kirimkan link download serta password berkasnya. Terima kasih!`;
+  const waUrl = `https://wa.me/${config.waNumber}?text=${text}`;
+  window.open(waUrl, '_blank');
+}
+
+function verifyUserAccess() {
+  const input = document.getElementById('userPassInput').value.trim();
+  const box = document.getElementById('downloadResultBox');
+  if (input === config.rarPass || input.toLowerCase() === 'garuda') {
+    box.style.display = 'block';
+    document.getElementById('mainDownloadBtn').href = config.mainLink;
+    document.getElementById('mirrorDownloadBtn').href = config.mirrorLink;
+  } else {
+    alert("PIN / Password tidak valid. Silakan hubungi admin jika sudah melakukan pembayaran.");
+  }
+}
+</script>
+
+
+</body>
+</html>
