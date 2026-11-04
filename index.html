@@ -431,8 +431,9 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
 
   
 .comp-logo {
-  width: 32px;
-  height: 32px;
+  height: 28px;
+  width: auto;
+  max-width: 45px;
   object-fit: contain;
   vertical-align: middle;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
@@ -491,7 +492,7 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
     <div class="kicker">Garuda Patch · eFootball PES 2021</div>
     <h1>Format Overhaul</h1>
     <p class="lede">Proyek komunitas baru untuk Garuda Patch: kompetisi baru serta format terbaru untuk kompetisi klub kontinental dan turnamen antarnegara, 12 kompetisi sekaligus.</p>
-    <p class="credit">Dikembangkan oleh <b>Afiq Jordan (AJ)</b></p>
+    <p class="credit">Owner: <b>TianDS</b> · Dikembangkan oleh <b>Afiq Jordan (AJ)</b></p>
     <div class="masthead-cta">
       <div class="price">
         <span class="amt">Rp50.000</span>
@@ -718,91 +719,38 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
     <div class="modal-header">
       <div>
         <h3>Format Overhaul</h3>
-        <small style="color:var(--muted)">Kontak Admin & Akses Berkas</small>
+        <small style="color:var(--muted)">Hubungi Owner / Developer</small>
       </div>
       <button class="modal-close" onclick="closeOrderModal()">&times;</button>
     </div>
 
-    <div class="modal-tabs">
-      <button class="tab-btn active" onclick="switchTab('tab-kontak')">Kontak WhatsApp</button>
-      <button class="tab-btn" onclick="switchTab('tab-bank')">Transfer Bank</button>
-      <button class="tab-btn" onclick="switchTab('tab-check')">Cek Akses / Unduh</button>
-    </div>
-
-    <!-- TAB 1: KONTAK WHATSAPP ADMIN -->
-    <div class="tab-content active" id="tab-kontak">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
-        Silakan hubungi salah satu admin pengembang untuk mendapatkan akses atau berkas patch:
+    <div style="padding: 20px;">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">
+        Pengiriman berkas dan aktivasi Google Drive dilakukan manual oleh tim kami. Silakan hubungi kontak resmi di bawah via WhatsApp:
       </p>
+
+      <div class="admin-card">
+        <div class="admin-info">
+          <h4>TianDS</h4>
+          <span>+62 831-9470-8908 • Owner</span>
+        </div>
+        <a href="https://wa.me/6283194708908?text=Halo%20Owner%20TianDS%2C%20saya%20ingin%20akses%20Garuda%20Format%20Overhaul" target="_blank" class="btn-wa-admin">
+          Chat WhatsApp
+        </a>
+      </div>
 
       <div class="admin-card">
         <div class="admin-info">
           <h4>Afiq Jordan (AJ)</h4>
           <span>+62 831-0914-5315 • Developer</span>
         </div>
-        <a href="https://wa.me/6283109145315?text=Halo%20Admin%20Afiq%2C%20saya%20ingin%20tanya%20akses%20Garuda%20Format%20Overhaul" target="_blank" class="btn-wa-admin">
+        <a href="https://wa.me/6283109145315?text=Halo%20Admin%20Afiq%2C%20saya%20ingin%20akses%20Garuda%20Format%20Overhaul" target="_blank" class="btn-wa-admin">
           Chat WhatsApp
         </a>
       </div>
 
-      <div class="admin-card">
-        <div class="admin-info">
-          <h4>TianDS</h4>
-          <span>+62 831-9470-8908 • Admin Partner</span>
-        </div>
-        <a href="https://wa.me/6283194708908?text=Halo%20Admin%20Tian%2C%20saya%20ingin%20tanya%20akses%20Garuda%20Format%20Overhaul" target="_blank" class="btn-wa-admin">
-          Chat WhatsApp
-        </a>
-      </div>
-
-      <div style="background:var(--free-soft);color:var(--free);padding:10px 14px;border-radius:8px;font-size:12px;text-align:center;margin-top:10px">
-        Respon cepat setiap hari untuk aktivasi Google Drive dan bantuan pemasangan.
-      </div>
-    </div>
-
-    <!-- TAB 2: TRANSFER BANK MANUAL -->
-    <div class="tab-content" id="tab-bank">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
-        Donasi nominal <strong>Rp50.000</strong> ke rekening resmi:
-      </p>
-
-      <div class="payment-card">
-        <span class="bank-badge">BANK DANAMON</span>
-        <div class="acc-num" id="bankAcc">003716298106</div>
-        <div class="acc-name">a.n. <strong>CHRISTIAN PURNAMA AJI</strong></div>
-        <button class="btn-copy" onclick="copyBankAcc()">Salin Nomor Rekening</button>
-      </div>
-
-      <div style="margin-top:14px">
-        <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px">Kirim konfirmasi bukti transfer ke Admin:</label>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <a href="#" onclick="sendWaToAdmin('6283109145315', event)" class="btn-wa-admin" style="justify-content:center;background:#1e3a8a;color:#fff">
-            Kirim ke Afiq Jordan
-          </a>
-          <a href="#" onclick="sendWaToAdmin('6283194708908', event)" class="btn-wa-admin" style="justify-content:center;background:#1e3a8a;color:#fff">
-            Kirim ke TianDS
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 3: CEK AKSES / UNDUH -->
-    <div class="tab-content" id="tab-check">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
-        Sudah memiliki PIN / Password berkas dari admin? Masukkan di bawah untuk membuka tautan:
-      </p>
-      <div style="display:flex;gap:8px;margin-bottom:14px">
-        <input type="password" id="userPassInput" placeholder="Masukkan Password Berkas" style="flex:1;padding:10px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:14px">
-        <button class="btn-order-primary" onclick="verifyUserAccess()" style="padding:10px 18px;font-size:14px">Buka Link</button>
-      </div>
-
-      <div id="downloadResultBox" style="display:none;background:var(--free-soft);padding:14px;border-radius:8px;border:1px solid var(--free)">
-        <strong style="color:var(--free);display:block;margin-bottom:6px">Akses Terverifikasi!</strong>
-        <p style="font-size:13px;margin-bottom:10px">Silakan unduh berkas mod Garuda Format Overhaul:</p>
-        <div style="display:grid;gap:8px">
-          <a href="#" id="mainDownloadBtn" target="_blank" style="display:block;padding:10px;background:var(--paid);color:#fff;text-align:center;border-radius:6px;text-decoration:none;font-weight:700;font-size:14px">Unduh via Google Drive</a>
-          <a href="#" id="mirrorDownloadBtn" target="_blank" style="display:block;padding:8px;background:var(--surface);border:1px solid var(--line);color:var(--ink);text-align:center;border-radius:6px;text-decoration:none;font-size:13px">Link Mirror Cadangan</a>
-        </div>
+      <div style="background:var(--free-soft);color:var(--free);padding:12px 14px;border-radius:8px;font-size:12px;text-align:center;margin-top:14px">
+        Respon cepat setiap hari untuk aktivasi Google Drive dan panduan pemasangan patch.
       </div>
     </div>
   </div>
