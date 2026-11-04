@@ -429,7 +429,59 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
   color: var(--ink);
 }
 
-  </style>
+  
+.comp-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  vertical-align: middle;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  flex-shrink: 0;
+}
+.comp-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.admin-card {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.admin-info h4 {
+  margin: 0 0 2px 0;
+  font-size: 15px;
+}
+.admin-info span {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: monospace;
+}
+.btn-wa-admin {
+  background: #25d366;
+  color: #000;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity .15s;
+}
+.btn-wa-admin:hover {
+  opacity: 0.9;
+}
+
+</style>
 </head>
 <body>
 
@@ -443,10 +495,10 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
     <div class="masthead-cta">
       <div class="price">
         <span class="amt">Rp50.000</span>
-        <span>Sekali beli, gratis update fitur hingga akhir musim</span>
+        <span>Donasi pengembangan fitur & pembaruan musim</span>
       </div>
       <button class="btn-order-primary" onclick="openOrderModal()">
-        Beli Sekarang
+        Kontak Admin
       </button>
     </div>
   </header>
@@ -464,8 +516,8 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
     </article>
     <article class="notice comm">
       <span class="n-tag">Proyek komunitas</span>
-      <h3>Dijual terpisah</h3>
-      <p>Proyek ini tidak termasuk dalam paket bundling pembelian GPES. Proyek akan terus dikembangkan setiap musim, jadi donasi dari setiap pembeli sangat berarti untuk perkembangannya ke depan.</p>
+      <h3>Akses Terpisah</h3>
+      <p>Proyek ini dikembangkan secara terpisah dan di luar bundling GPES. Untuk mendapatkan berkas atau info pembaruan, silakan hubungi admin pengembang.</p>
     </article>
   </section>
 
@@ -484,7 +536,7 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
       <div class="region-title"><h3>Eropa</h3><span>UEFA</span></div>
 
       <article class="comp">
-        <div class="comp-top"><h4>UEFA Champions League</h4><span class="pill exp">Format 36 tim</span></div>
+        <div class="comp-top"><div class="comp-title-wrap"><img src="assets/logos/ucl.png" class="comp-logo" alt="UCL"><h4>UEFA Champions League</h4></div><span class="pill exp">Format 36 tim</span></div>
         <div class="spec"><span><b>36</b> tim</span><span><b>1</b> klasemen</span><span><b>8</b> laga per tim</span></div>
         <ul>
           <li>Satu klasemen gabungan (League Phase), diundi dari 4 pot berisi 9 tim. Setiap tim main 4 laga kandang dan 4 tandang melawan 8 lawan berbeda.</li>
@@ -497,7 +549,7 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
       </article>
 
       <article class="comp">
-        <div class="comp-top"><h4>UEFA Europa League</h4><span class="pill exp">Format 36 tim</span></div>
+        <div class="comp-top"><div class="comp-title-wrap"><img src="assets/logos/uel.png" class="comp-logo" alt="UEL"><h4>UEFA Europa League</h4></div><span class="pill exp">Format 36 tim</span></div>
         <div class="spec"><span><b>36</b> tim</span><span><b>1</b> klasemen</span><span><b>8</b> laga per tim</span></div>
         <ul>
           <li>Peserta: 20 tim langsung (termasuk juara Conference League), 8 pemenang Play-off Europa League, dan 8 tim yang kalah di Play-off Champions League.</li>
@@ -508,7 +560,7 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
       </article>
 
       <article class="comp">
-        <div class="comp-top"><h4>UEFA Conference League</h4><span class="pill new">Kompetisi baru</span></div>
+        <div class="comp-top"><div class="comp-title-wrap"><img src="assets/logos/uecl.png" class="comp-logo" alt="UECL"><h4>UEFA Conference League</h4></div><span class="pill new">Kompetisi baru</span></div>
         <div class="spec"><span><b>36</b> tim</span><span><b>1</b> klasemen</span><span><b>8</b> laga per tim</span></div>
         <ul>
           <li>Kompetisi klub Eropa kasta ketiga, ditambahkan ke game.</li>
@@ -525,7 +577,7 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
       <div class="region-title"><h3>Asia</h3><span>AFC</span></div>
 
       <article class="comp">
-        <div class="comp-top"><h4>AFC Champions League Elite</h4><span class="pill exp">Format League Stage</span></div>
+        <div class="comp-top"><div class="comp-title-wrap"><img src="assets/logos/acl_elite.png" class="comp-logo" alt="ACL Elite"><h4>AFC Champions League Elite</h4></div><span class="pill exp">Format League Stage</span></div>
         <div class="spec"><span><b>32</b> tim</span><span><b>2</b> wilayah</span><span><b>8</b> laga per tim</span></div>
         <ul>
           <li>Peserta: 31 tim langsung dan juara AFC Champions League Two.</li>
@@ -537,7 +589,7 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
       </article>
 
       <article class="comp">
-        <div class="comp-top"><h4>AFC Champions League Two</h4><span class="pill new">Kompetisi baru</span></div>
+        <div class="comp-top"><div class="comp-title-wrap"><img src="assets/logos/acl_two.png" class="comp-logo" alt="ACL Two"><h4>AFC Champions League Two</h4></div><span class="pill new">Kompetisi baru</span></div>
         <div class="spec"><span><b>32</b> tim</span><span><b>8</b> grup</span><span><b>16</b> besar</span></div>
         <ul>
           <li>Kompetisi klub Asia kasta kedua, di bawah ACL Elite.</li>
@@ -549,7 +601,7 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
       </article>
 
       <article class="comp">
-        <div class="comp-top"><h4>AFC Asian Cup</h4><span class="pill exp">Diperluas</span></div>
+        <div class="comp-top"><div class="comp-title-wrap"><img src="assets/logos/asian_cup.png" class="comp-logo" alt="Asian Cup"><h4>AFC Asian Cup</h4></div><span class="pill exp">Diperluas</span></div>
         <div class="spec"><span><b>24</b> tim</span><span><b>6</b> grup</span><span><b>16</b> besar</span></div>
         <ul>
           <li>Diperluas dari 16 tim dan 4 grup menjadi 24 tim dan 6 grup.</li>
@@ -565,7 +617,7 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
       <div class="region-title"><h3>Amerika Selatan</h3><span>CONMEBOL</span></div>
 
       <article class="comp">
-        <div class="comp-top"><h4>Copa Libertadores</h4></div>
+        <div class="comp-top"><div class="comp-title-wrap"><img src="assets/logos/copa_libertadores.png" class="comp-logo" alt="Copa Libertadores"><h4>Copa Libertadores</h4></div></div>
         <div class="spec"><span><b>32</b> tim</span><span><b>8</b> grup</span><span><b>16</b> besar</span></div>
         <ul>
           <li>32 tim, termasuk juara Copa Sudamericana, dalam 8 grup berisi 4 tim.</li>
@@ -576,7 +628,7 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
       </article>
 
       <article class="comp">
-        <div class="comp-top"><h4>Copa Sudamericana</h4><span class="pill new">Kompetisi baru</span></div>
+        <div class="comp-top"><div class="comp-title-wrap"><img src="assets/logos/copa_sudamericana.png" class="comp-logo" alt="Copa Sudamericana"><h4>Copa Sudamericana</h4></div><span class="pill new">Kompetisi baru</span></div>
         <div class="spec"><span><b>32</b> tim</span><span><b>8</b> grup</span><span><b>16</b> besar</span></div>
         <ul>
           <li>Kompetisi klub Amerika Selatan kasta kedua.</li>
@@ -588,7 +640,7 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
       </article>
 
       <article class="comp">
-        <div class="comp-top"><h4>Copa America</h4><span class="pill exp">Diperluas</span></div>
+        <div class="comp-top"><div class="comp-title-wrap"><img src="assets/logos/copa_america.png" class="comp-logo" alt="Copa America"><h4>Copa America</h4></div><span class="pill exp">Diperluas</span></div>
         <div class="spec"><span><b>16</b> tim</span><span><b>4</b> grup</span><span><b>8</b> besar</span></div>
         <ul>
           <li>Diperluas dari 12 tim dan 3 grup menjadi 16 tim dan 4 grup.</li>
@@ -603,7 +655,7 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
       <div class="region-title"><h3>Antarnegara</h3><span>FIFA · CAF</span></div>
 
       <article class="comp">
-        <div class="comp-top"><h4>FIFA World Cup</h4><span class="pill exp">Format 48 tim</span></div>
+        <div class="comp-top"><div class="comp-title-wrap"><img src="assets/logos/world_cup.png" class="comp-logo" alt="FIFA World Cup"><h4>FIFA World Cup</h4></div><span class="pill exp">Format 48 tim</span></div>
         <div class="spec"><span><b>48</b> tim</span><span><b>12</b> grup</span><span><b>32</b> besar</span></div>
         <ul>
           <li>Diperluas dari 32 tim dan 8 grup menjadi 48 tim dan 12 grup berisi 4 tim.</li>
@@ -615,7 +667,7 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
       </article>
 
       <article class="comp">
-        <div class="comp-top"><h4>Africa Cup of Nations</h4><span class="pill exp">Fase grup baru</span></div>
+        <div class="comp-top"><div class="comp-title-wrap"><img src="assets/logos/afcon.png" class="comp-logo" alt="AFCON"><h4>Africa Cup of Nations</h4></div><span class="pill exp">Fase grup baru</span></div>
         <div class="spec"><span><b>24</b> tim</span><span><b>6</b> grup</span><span><b>16</b> besar</span></div>
         <ul>
           <li>Sekarang ada fase grup, 24 tim dalam 6 grup. Sebelumnya hanya babak gugur.</li>
@@ -631,7 +683,7 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
       <div class="region-title"><h3>Piala Domestik</h3><span>Inggris</span></div>
 
       <article class="comp">
-        <div class="comp-top"><h4>Carabao Cup</h4><span class="pill new">Kompetisi baru</span></div>
+        <div class="comp-top"><div class="comp-title-wrap"><img src="assets/logos/carabao_cup.png" class="comp-logo" alt="Carabao Cup"><h4>Carabao Cup</h4></div><span class="pill new">Kompetisi baru</span></div>
         <div class="spec"><span><b>Gugur</b> satu laga</span><span><b>6</b> babak</span><span>tengah pekan</span></div>
         <ul>
           <li>Piala domestik kedua Inggris, di samping FA Cup. Tersedia di Master League.</li>
@@ -660,51 +712,58 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
 </div>
 
 
-<!-- MODAL PEMBELIAN & INSTANT DELIVERY -->
+<!-- MODAL KONTAK ADMIN & AKSES BERKAS -->
 <div class="modal-overlay" id="orderModal" onclick="closeOrderModal(event)">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div class="modal-header">
       <div>
         <h3>Format Overhaul</h3>
-        <small style="color:var(--muted)">Pilih Metode Pembelian (Rp50.000)</small>
+        <small style="color:var(--muted)">Kontak Admin & Akses Berkas</small>
       </div>
       <button class="modal-close" onclick="closeOrderModal()">&times;</button>
     </div>
 
     <div class="modal-tabs">
-      <button class="tab-btn active" onclick="switchTab('tab-qris')">Otomatis (QRIS / E-Wallet)</button>
+      <button class="tab-btn active" onclick="switchTab('tab-kontak')">Kontak WhatsApp</button>
       <button class="tab-btn" onclick="switchTab('tab-bank')">Transfer Bank</button>
       <button class="tab-btn" onclick="switchTab('tab-check')">Cek Akses / Unduh</button>
     </div>
 
-    <!-- TAB 1: OTOMATIS QRIS & INSTANT DELIVERY -->
-    <div class="tab-content active" id="tab-qris">
-      <p style="font-size:14px;margin-bottom:14px;color:var(--muted)">
-        <strong>Metode Tercepat (Rekomendasi):</strong> Link download otomatis langsung muncul di layar Anda & dikirimkan ke email detik ini juga begitu pembayaran terverifikasi.
+    <!-- TAB 1: KONTAK WHATSAPP ADMIN -->
+    <div class="tab-content active" id="tab-kontak">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+        Silakan hubungi salah satu admin pengembang untuk mendapatkan akses atau berkas patch:
       </p>
 
-      <a href="https://trakteer.id" id="autoPayUrl" target="_blank" class="auto-pay-btn">
-        Bayar Otomatis (QRIS / E-Wallet)
-      </a>
-
-      <div class="qris-badges">
-        <span class="qris-badge">QRIS</span>
-        <span class="qris-badge">GoPay</span>
-        <span class="qris-badge">OVO</span>
-        <span class="qris-badge">DANA</span>
-        <span class="qris-badge">ShopeePay</span>
-        <span class="qris-badge">BCA / Mandiri / BRI Virtual Account</span>
+      <div class="admin-card">
+        <div class="admin-info">
+          <h4>Afiq Jordan (AJ)</h4>
+          <span>+62 831-0914-5315 • Developer</span>
+        </div>
+        <a href="https://wa.me/6283109145315?text=Halo%20Admin%20Afiq%2C%20saya%20ingin%20tanya%20akses%20Garuda%20Format%20Overhaul" target="_blank" class="btn-wa-admin">
+          Chat WhatsApp
+        </a>
       </div>
 
-      <div style="background:var(--free-soft);color:var(--free);padding:10px 14px;border-radius:8px;font-size:12px;text-align:center">
-        Sistem aktif 24 jam nonstop tanpa perlu menunggu konfirmasi admin
+      <div class="admin-card">
+        <div class="admin-info">
+          <h4>TianDS</h4>
+          <span>+62 831-9470-8908 • Admin Partner</span>
+        </div>
+        <a href="https://wa.me/6283194708908?text=Halo%20Admin%20Tian%2C%20saya%20ingin%20tanya%20akses%20Garuda%20Format%20Overhaul" target="_blank" class="btn-wa-admin">
+          Chat WhatsApp
+        </a>
+      </div>
+
+      <div style="background:var(--free-soft);color:var(--free);padding:10px 14px;border-radius:8px;font-size:12px;text-align:center;margin-top:10px">
+        Respon cepat setiap hari untuk aktivasi Google Drive dan bantuan pemasangan.
       </div>
     </div>
 
     <!-- TAB 2: TRANSFER BANK MANUAL -->
     <div class="tab-content" id="tab-bank">
       <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
-        Silakan transfer nominal <strong>Rp50.000</strong> ke rekening resmi berikut:
+        Donasi nominal <strong>Rp50.000</strong> ke rekening resmi:
       </p>
 
       <div class="payment-card">
@@ -714,26 +773,26 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
         <button class="btn-copy" onclick="copyBankAcc()">Salin Nomor Rekening</button>
       </div>
 
-      <p style="font-size:13px;margin-bottom:10px;color:var(--muted)">
-        Setelah transfer, klik tombol di bawah untuk konfirmasi & meminta link unduhan via WhatsApp:
-      </p>
-
-      <div style="display:grid;gap:8px;margin-bottom:10px">
-        <input type="text" id="buyerName" placeholder="Nama Anda (sesuai rekening)" style="width:100%;padding:10px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:14px">
+      <div style="margin-top:14px">
+        <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px">Kirim konfirmasi bukti transfer ke Admin:</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <a href="#" onclick="sendWaToAdmin('6283109145315', event)" class="btn-wa-admin" style="justify-content:center;background:#1e3a8a;color:#fff">
+            Kirim ke Afiq Jordan
+          </a>
+          <a href="#" onclick="sendWaToAdmin('6283194708908', event)" class="btn-wa-admin" style="justify-content:center;background:#1e3a8a;color:#fff">
+            Kirim ke TianDS
+          </a>
+        </div>
       </div>
-
-      <a href="#" onclick="sendWhatsAppConfirmation(event)" class="wa-btn">
-        Kirim Bukti Transfer via WhatsApp
-      </a>
     </div>
 
     <!-- TAB 3: CEK AKSES / UNDUH -->
     <div class="tab-content" id="tab-check">
       <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
-        Sudah pernah membeli atau punya PIN / Kode Akses dari admin? Masukkan di bawah untuk membuka link unduhan:
+        Sudah memiliki PIN / Password berkas dari admin? Masukkan di bawah untuk membuka tautan:
       </p>
       <div style="display:flex;gap:8px;margin-bottom:14px">
-        <input type="password" id="userPassInput" placeholder="Masukkan PIN / Password Berkas" style="flex:1;padding:10px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:14px">
+        <input type="password" id="userPassInput" placeholder="Masukkan Password Berkas" style="flex:1;padding:10px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:14px">
         <button class="btn-order-primary" onclick="verifyUserAccess()" style="padding:10px 18px;font-size:14px">Buka Link</button>
       </div>
 
@@ -749,14 +808,14 @@ footer { margin-top: 56px; padding-top: 20px; border-top: 3px solid var(--ink); 
   </div>
 </div>
 
-<!-- MOBILE STICKY BOTTOM BAR -->
+<!-- MOBILE STICKY BOTTOM BAR --><!-- MOBILE STICKY BOTTOM BAR -->
 <div class="mobile-sticky-bar">
   <div>
     <div style="font-family:var(--display);font-size:20px;font-weight:800;color:var(--ink)">Rp50.000</div>
     <small style="color:var(--muted);font-size:11px">Format Overhaul PES 2021</small>
   </div>
   <button class="btn-order-primary" onclick="openOrderModal()" style="padding:10px 20px;font-size:16px">
-    Beli Sekarang
+    Kontak Admin
   </button>
 </div>
 
